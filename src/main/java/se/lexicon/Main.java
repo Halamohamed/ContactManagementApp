@@ -6,45 +6,51 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
-    static Scanner scanner= new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
     static Contact contact = new Contact();
 
     static void main() {
 
-         boolean isRun = true;
+        boolean isRun = true;
         int option;
-        do{
+        do {
             menu();
             option = scanner.nextInt();
 
-            switch (option){
-                case 1: addContact();
+            switch (option) {
+                case 1:
+                    addContact();
                     break;
-                case 2: getContact();
+                case 2:
+                    getContact();
                     break;
-                case 3: contact.getOneContact();
-                break;
-                case 4: isRun = false;
-                break;
+                case 3:
+                    contact.getContactByMobile();
+                    break;
+                case 4:
+                    contact.getOneContact();
+                    break;
+                case 5:
+                    isRun = false;
+                    break;
                 default:
                     IO.println("Wrong Input");
             }
 
-        }while (isRun);
-
-
+        } while (isRun);
     }
 
-    static void menu(){
+    static void menu() {
         IO.println("=== Contact Management ===");
         IO.println(" 1- Add Contact: ");
-        IO.println(" 2- Search Contact: ");
-        IO.println(" 3- Display All Contacts: ");
-        IO.println(" 4- Exit: ");
+        IO.println(" 2- Display All Contacts: ");
+        IO.println(" 3- Search Contact by Mobile: ");
+        IO.println(" 4- Search Contact by Name:");
+        IO.println(" 5- Exit: ");
         IO.println(" Choose an option: ");
     }
-    static void addContact(){
 
+    static void addContact() {
         IO.println("Enter name: ");
         String name = scanner.next();
 
@@ -57,9 +63,10 @@ public class Main {
         }
         contact.setMobile(mobile);
         IO.println("saved! ");
-        int id = contact.getContact().size() +1;
-        contact.addContact(new Contact(id,name,mobile));
+        int id = contact.getContact().size() + 1;
+        contact.addContact(new Contact(id, name, mobile));
     }
+
     static boolean mobileExists(int mobile) {
         ArrayList<Contact> contacts = contact.getContact();
         for (Contact c : contacts) {
@@ -70,9 +77,9 @@ public class Main {
         return false;
     }
 
-    static void getContact(){
-         Set<Contact> contactSet = new HashSet<>(contact.getContact());
-        for (Contact person: contactSet){
+    static void getContact() {
+        Set<Contact> contactSet = new HashSet<>(contact.getContact());
+        for (Contact person : contactSet) {
             IO.println(person);
         }
     }

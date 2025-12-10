@@ -48,10 +48,20 @@ public class Contact {
         }
         IO.println("Contact not found.");
     }
+    void getContactByMobile(){
+        ArrayList<Contact> contactList = new ArrayList<>(getContact());
+        IO.println("Enter mobile number: ");
+        int number = scanner.nextInt();
+        for (Contact person: contactList){
+            if(person.getMobile() == number){
+                IO.println(person);
+                return;
+            }
+        }
+    }
     ArrayList<Contact> getContact(){
 
         return contacts;
-
     }
 
     public void setName(String name) {
