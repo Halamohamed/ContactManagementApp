@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static Scanner scanner= new Scanner(System.in);
     static Contact contact = new Contact();
@@ -24,7 +22,9 @@ public class Main {
                     break;
                 case 2: getContact();
                     break;
-                case 3: isRun = false;
+                case 3: contact.getOneContact();
+                break;
+                case 4: isRun = false;
                 break;
                 default:
                     IO.println("Wrong Input");
@@ -38,8 +38,9 @@ public class Main {
     static void menu(){
         IO.println("=== Contact Management ===");
         IO.println(" 1- Add Contact: ");
-        IO.println(" 2- Display All Contacts: ");
-        IO.println(" 3- Exit: ");
+        IO.println(" 2- Search Contact: ");
+        IO.println(" 3- Display All Contacts: ");
+        IO.println(" 4- Exit: ");
         IO.println(" Choose an option: ");
     }
     static void addContact(){

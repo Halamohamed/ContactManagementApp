@@ -2,6 +2,8 @@ package se.lexicon;
 
 import java.util.ArrayList;
 
+import static se.lexicon.Main.scanner;
+
 public class Contact {
 
     ArrayList<Contact> contacts = new ArrayList<>();
@@ -33,6 +35,18 @@ public class Contact {
             IO.println("This contact is already saved");
         }
         else contacts.add(contact);
+    }
+     void getOneContact() {
+        IO.println("Search: ");
+        String name = scanner.next();
+        ArrayList<Contact> contacts = getContact();
+        for (Contact c : contacts) {
+            if (c.getName().equalsIgnoreCase(name)) {
+                IO.println(c.toString());
+                return;
+            }
+        }
+        IO.println("Contact not found.");
     }
     ArrayList<Contact> getContact(){
 
