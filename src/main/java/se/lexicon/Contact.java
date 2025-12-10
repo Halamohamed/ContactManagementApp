@@ -25,7 +25,6 @@ public class Contact {
         return id;
     }
 
-
     public String getName() {
         return name;
     }
@@ -36,9 +35,7 @@ public class Contact {
         else contacts.add(contact);
     }
     ArrayList<Contact> getContact(){
-        /*for (Contact contact: contacts){
-            IO.println(contact);
-        }*/
+
         return contacts;
 
     }

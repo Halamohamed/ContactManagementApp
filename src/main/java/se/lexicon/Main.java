@@ -1,14 +1,18 @@
 package se.lexicon;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static Scanner scanner= new Scanner(System.in);
     static Contact contact = new Contact();
+
     static void main() {
+
          boolean isRun = true;
         int option;
         do{
@@ -26,8 +30,6 @@ public class Main {
                     IO.println("Wrong Input");
             }
 
-
-
         }while (isRun);
 
 
@@ -40,9 +42,7 @@ public class Main {
         IO.println(" 3- Exit: ");
         IO.println(" Choose an option: ");
     }
-
     static void addContact(){
-        //Scanner scanner= new Scanner(System.in);
 
         IO.println("Enter name: ");
         String name = scanner.next();
@@ -50,15 +50,29 @@ public class Main {
         contact.setName(name);
         IO.println("Enter mobile: ");
         int mobile = scanner.nextInt();
+        if (mobileExists(mobile)) {
+            IO.println("Number already exists.");
+            return;
+        }
         contact.setMobile(mobile);
         IO.println("saved! ");
         int id = contact.getContact().size() +1;
         contact.addContact(new Contact(id,name,mobile));
     }
+    static boolean mobileExists(int mobile) {
+        ArrayList<Contact> contacts = contact.getContact();
+        for (Contact c : contacts) {
+            if (c.getMobile() == mobile) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     static void getContact(){
-        for (int i =0; i < contact.getContact().size(); i++){
-            IO.println(i + contact.toString());
+         Set<Contact> contactSet = new HashSet<>(contact.getContact());
+        for (Contact person: contactSet){
+            IO.println(person);
         }
     }
 }
