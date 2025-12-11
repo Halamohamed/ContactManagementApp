@@ -1,8 +1,9 @@
 package se.lexicon;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-import static se.lexicon.Main.scanner;
+
 
 public class Contact {
 
@@ -14,7 +15,8 @@ public class Contact {
     public Contact() {
     }
 
-    public Contact(Integer id,String name, int mobile) {
+    public Contact(String name, int mobile) {
+        //this.id++;
         this.name = name;
         this.mobile = mobile;
     }
@@ -34,34 +36,17 @@ public class Contact {
         if(contacts.contains(contact)){
             IO.println("This contact is already saved");
         }
-        else contacts.add(contact);
-    }
-     void getOneContact() {
-        IO.println("Search: ");
-        String name = scanner.next();
-        ArrayList<Contact> contacts = getContact();
-        for (Contact c : contacts) {
-            if (c.getName().equalsIgnoreCase(name)) {
-                IO.println(c.toString());
-                return;
-            }
-        }
-        IO.println("Contact not found.");
-    }
-    void getContactByMobile(){
-        ArrayList<Contact> contactList = new ArrayList<>(getContact());
-        IO.println("Enter mobile number: ");
-        int number = scanner.nextInt();
-        for (Contact person: contactList){
-            if(person.getMobile() == number){
-                IO.println(person);
-                return;
-            }
+        else {
+            contacts.add(contact);
+
         }
     }
+
     ArrayList<Contact> getContact(){
 
-        return contacts;
+        ArrayList<Contact> sortedContact = new ArrayList<>(contacts);
+        sortedContact.sort(Comparator.comparing(Contact::getName, String.CASE_INSENSITIVE_ORDER));
+        return sortedContact;
     }
 
     public void setName(String name) {
@@ -76,10 +61,11 @@ public class Contact {
         this.mobile = mobile;
     }
 
+
     @Override
     public String toString() {
         return "Contact{" +
-                "name='" + getName() + '\'' +
+                " name='" + getName() + '\'' +
                 ", mobile=" + getMobile() +
                 '}';
     }
