@@ -1,15 +1,13 @@
 package se.lexicon;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class ContactManagement {
-     Scanner scanner = new Scanner(System.in);
-     Contact contact = new Contact();
+    Scanner scanner = new Scanner(System.in);
+    Contact contact = new Contact();
+    Set<Contact> contactSet = new HashSet<>();
 
-     void menu() {
+    void menu() {
         IO.println("=== Contact Management ===");
         IO.println(" 1- Add Contact: ");
         IO.println(" 2- Display All Contacts: ");
@@ -21,90 +19,134 @@ public class ContactManagement {
         IO.println(" Choose an option: ");
     }
 
-     void addContact() {
+    void addContact() {
         IO.println("Enter name: ");
-        String name = scanner.nextLine();
+        String name = scanner.next();
         contact.setName(name);
         //scanner.nextLine();
         IO.println("Enter mobile: ");
-        int mobile = scanner.nextInt();
+        String mobile = scanner.next();
         if (mobileExists(mobile)) {
             IO.println("Number already exists.");
             return;
         }
         contact.setMobile(mobile);
-        IO.println("saved! ");
 
-        contact.addContact(new Contact(name, mobile));
+        boolean added = addContact(new Contact(name, mobile));
+        if (added) {
+            IO.println("saved! ");
+        } else {
+            IO.println("doesn't save! ");
+        }
     }
 
-     boolean mobileExists(int mobile) {
-        ArrayList<Contact> contacts = contact.getContact();
+    boolean addContact(Contact contact) {
+        if (contactSet.contains(contact)) {
+            IO.println("This contact is already saved");
+        } else {
+            contactSet.add(contact);
+            return true;
+
+        }
+        return false;
+    }
+
+    boolean mobileExists(String mobile) {
+        ArrayList<Contact> contacts = new ArrayList<>(contactSet);
         for (Contact c : contacts) {
-            if (c.getMobile() == mobile) {
+            if (c.getMobile().equalsIgnoreCase(mobile)) {
                 return true;
             }
         }
         return false;
     }
 
-     void getContact() {
-        Set<Contact> contactSet = new HashSet<>(contact.getContact());
-        //contactSet.stream().sorted(Comparator.comparing(Contact::getName));
-        for (Contact person : contactSet) {
-            IO.println(person);
-        }
+    void getContacts() {
+
+        contactSet.stream()
+                .sorted(Comparator.comparing(Contact::getName))
+                .forEach(IO::println);
+
     }
+
     void getContactByName() {
         IO.println("Search by name: ");
         String name = scanner.next();
-        ArrayList<Contact> contacts = new ArrayList<>(contact.getContact());
-        for (Contact c : contacts) {
+        boolean found = false;
+        //ArrayList<Contact> contacts = new ArrayList<>(contactSet);
+        for (Contact c : contactSet) {
             if (c.getName().equalsIgnoreCase(name)) {
+
                 IO.println(c.toString());
+                found = true;
                 return;
             }
         }
-        IO.println("Contact not found.");
+        if (!found) {
+            IO.println("This contact: " + name + " not found!");
+        }
     }
-    void getContactByMobile(){
-        ArrayList<Contact> contactList = new ArrayList<>(contact.getContact());
+
+    void getContactByMobile() {
+        //ArrayList<Contact> contactList = new ArrayList<>(contact.getContact());
         IO.println("Enter mobile number: ");
-        int number = scanner.nextInt();
-        for (Contact person: contactList){
-            if(person.getMobile() == number){
+        String number = scanner.next();
+        boolean found = false;
+        for (Contact person : contactSet) {
+            if (person.getMobile().equalsIgnoreCase(number)) {
                 IO.println(person);
+                found = true;
                 return;
             }
         }
+        if (!found) {
+            IO.println("This mobile: " + number + " not exist!");
+        }
     }
-    public void deleteContact(){
+
+    public void deleteContact() {
+        Iterator<Contact> iterator = contactSet.iterator();
         String contactName;
+        boolean found = false;
         IO.println("Enter the contact name to delete: ");
         contactName = scanner.next();
-        for (Contact c : contact.getContact()){
-            if(c.getName().equalsIgnoreCase(contactName)){
-                IO.println(contact.getContact().remove(c));
+
+        while (iterator.hasNext()) {
+            Contact c = iterator.next();
+            if (c.getName().equalsIgnoreCase(contactName)) {
+                iterator.remove();
+                IO.println(c + " deleted");
+                found = true;
                 return;
             }
         }
+        if (!found) {
+            IO.println("Contact " + contactName + " not exist!");
+        }
     }
 
-    public void updateContact(){
-        String searchContact;
-        IO.println("Enter the contact name to update: ");
-        searchContact = scanner.next();
-        IO.println("Write the name:" );
-        String contactName = scanner.next();
-        IO.println("Write the mobile:" );
-        int mobile = scanner.nextInt();
+    public void updateContact() {
 
-        for (Contact c : contact.getContact()){
-            if(c.getName().equalsIgnoreCase(searchContact) ){
-                IO.println(contact.getContact().remove(c));
-                contact.addContact(new Contact(contactName, mobile));
-                return;
+        IO.println("Enter the contact name to update: ");
+        String searchContact = scanner.next();
+
+        boolean found = false;
+
+        for (Contact c : contactSet) {
+            if (c.getName().equalsIgnoreCase(searchContact)) {
+                IO.println("Write the new name:");
+                String contactName = scanner.next();
+                IO.println("Write the new mobile:");
+                String mobile = scanner.next();
+                contactSet.remove(c);
+                contactSet.add(new Contact(contactName, mobile));
+                found = true;
+                IO.println("Updated!");
+                break;
             }
-        } IO.println("Updated!");
+        }
+        if (!found) {
+            IO.println("Contact: " + searchContact + " not found!");
+        }
     }
 }

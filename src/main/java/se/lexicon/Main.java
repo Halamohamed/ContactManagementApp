@@ -20,7 +20,7 @@ public class Main {
                     contactManagement.addContact();
                     break;
                 case 2:
-                    contactManagement.getContact();
+                    contactManagement.getContacts();
                     break;
                 case 3:
                     contactManagement.getContactByMobile();

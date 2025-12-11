@@ -7,15 +7,15 @@ import java.util.Comparator;
 
 public class Contact {
 
-    ArrayList<Contact> contacts = new ArrayList<>();
+   // ArrayList<Contact> contacts = new ArrayList<>();
     Integer id;
     String name;
-    int mobile;
+    String mobile;
 
     public Contact() {
     }
 
-    public Contact(String name, int mobile) {
+    public Contact(String name, String mobile) {
         //this.id++;
         this.name = name;
         this.mobile = mobile;
@@ -32,32 +32,25 @@ public class Contact {
     public String getName() {
         return name;
     }
-    void addContact(Contact contact){
-        if(contacts.contains(contact)){
-            IO.println("This contact is already saved");
-        }
-        else {
-            contacts.add(contact);
 
-        }
-    }
 
-    ArrayList<Contact> getContact(){
+
+   /* ArrayList<Contact> getContact(){
 
         ArrayList<Contact> sortedContact = new ArrayList<>(contacts);
         sortedContact.sort(Comparator.comparing(Contact::getName, String.CASE_INSENSITIVE_ORDER));
         return sortedContact;
-    }
+    }*/
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
